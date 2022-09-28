@@ -101,7 +101,7 @@ const client = await createConnection();
 app.use(express.json());
 
 app.get("/", function (request, response) {
-  response.send("🙋‍♂️, 🌏 🎊✨🤩, testing hi");
+  response.send("🙋‍♂️, 🌏 🎊✨🤩, Welcome to Heroku");
   console.log("hie")
 });
 
