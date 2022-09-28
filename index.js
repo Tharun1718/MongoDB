@@ -146,5 +146,35 @@ app.get("/movies/:id", async function (request, response) {
   : response.status(404).send({msg: "Movie not found"})
 });
 
+app.delete("/movies/:id", async function (request, response) {
+  // console.log(request.params)
+  const {id} = request.params;
+  // console.log(id);
+  // const movie = movies.find((mv)=> mv.id === id)
+
+  const result = await client
+                .db("mongodatabase")
+                .collection("movies")
+                .deleteOne({id: id});
+  console.log("movie deleted successfully");
+  result.deletedCount > 0
+  ? response.send({msg: "Movie deleted successfully ✔"})
+  : response.status(404).send({msg: "Movie not found"})
+});
+
+app.put("/movies/:id", async function (request, response) {
+  // console.log(request.params)
+  const {id} = request.params;
+  const data = request.body;
+
+  const movie = await client
+                .db("mongodatabase")
+                .collection("movies")
+                .updateOne({id: id}, { $set : data});
+  console.log("movie deleted successfully");
+  movie
+  ? response.send(movie)
+  : response.status(404).send({msg: "Movie not found"})
+});
 
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
