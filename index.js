@@ -2,7 +2,9 @@
 // const { MongoClient } = require("mongodb");
 import express from "express";
 import { MongoClient } from "mongodb";
-import moviesRouter from "./routes/movies.route.js"
+import moviesRouter from "./routes/movies.route.js";
+import userRouter from "./routes/user.route.js";
+
 
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config()
@@ -28,11 +30,14 @@ export const client = await createConnection();
 app.use(express.json());
 
 app.get("/", function (request, response) {
-  response.send("🙋‍♂️, 🌏 🎊✨🤩, Welcome to Heroku");
+  response.send("🙋‍♂️, 🌏 🎊✨🤩, AWESOME!!!");
   console.log("hie")
 });
 
 
 app.use("/movies", moviesRouter);
 
+app.use("/user", userRouter);
+
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
+
