@@ -2,6 +2,7 @@ import express from "express";
 import bcrypt from "bcrypt";
 import { createUser, getUserByName } from "../services/user.service.js";
 const router = express.Router();
+import jwt  from "jsonwebtoken";
 
 async function generateHashedPassword(password){
     const NO_OF_ROUNDS = 10;
@@ -43,7 +44,8 @@ router.post("/login", async function (request, response) {
         const storedDBPassword = userFromDB.password;
         const isPasswordMatch = await bcrypt.compare(password,storedDBPassword);
         if(isPasswordMatch){
-            response.send({msg: "Login successful"});
+            const token = jwt.sign({ id: userFromDB._id}, process.env.SECRET_KEY)
+            response.send({msg: "Login successful", token: token});
         }else{
             response.status(401).send({msg: "Invalid username or password"});
         }
